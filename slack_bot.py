@@ -20,12 +20,10 @@ def list_channels():
     response = slack_client.conversations_list(types="public_channel,private_channel")
     channels = [{"name": ch["name"], "id": ch["id"]} for ch in response["channels"]]
 
-    # Split channels into two halves for parallel tables
     mid = (len(channels) + 1) // 2
     left = channels[:mid]
     right = channels[mid:]
 
-    # Table headers
     header = "| Channel Name           | Channel ID              |"
     boundary = "|-----------------------|-------------------------|"
     print()
@@ -72,7 +70,6 @@ def ask_question(data: QueryRequest):
     channel_id = data.channel_id
     user_query = data.query
 
-    # Join channel if not already in it
     try:
         slack_client.conversations_join(channel=channel_id)
         print(f"Joined channel {channel_id}")
